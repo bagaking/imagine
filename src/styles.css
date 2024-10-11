@@ -1,0 +1,4 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* important: 尽量使用 Tailwind 和现有组件，而非在这里写 css */

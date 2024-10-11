@@ -1,0 +1,4 @@
+entry = ["./src/**/*", "./.cursorrules", "./*.json", "./*.js", "./*.mjs"]
+exclude = [".bundle", ".bundle.txt"]
+output = "bundle.bundle.txt"
+description = ""
