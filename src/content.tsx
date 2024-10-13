@@ -13,12 +13,15 @@ const MessagePopup: React.FC = () => {
   const receiveShowMessage = useMsgRecv<ShowMessagePayload>("SHOW_MESSAGE");
 
   useEffect(() => {
-    const cleanup = receiveShowMessage((message) => {
+    const cleanup = receiveShowMessage(async (message) => {
       console.log("Received message:", message);
       setShow(true);
       setMessage(message.payload.message);
-      // 返回一个 Promise 来解决类型错误
-      return Promise.resolve({ received: true });
+      setTimeout(() => {
+        setShow(false);
+      }, 3000);
+
+      return { received: true };
     });
 
     return cleanup;

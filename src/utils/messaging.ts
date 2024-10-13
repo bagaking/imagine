@@ -20,7 +20,7 @@ type MessageHandler<T = any> = (
   sender: chrome.runtime.MessageSender
 ) => void | Promise<any>;
 
-export type SendMessageFunction<T = any> = (payload: T) => Promise<any>;
+export type SendMessageFunction<T = any, R = any> = (payload: T) => Promise<R>;
 
 export type ReceiveMessageFunction<T = any> = (
   handler: MessageHandler<T>
@@ -57,10 +57,10 @@ const sendMessage = <T>(message: Message<T>): Promise<any> => {
   });
 };
 
-export const useMsgSend = <T = any>(
+export const useMsgSend = <T = any, R = any>(
   target: MessageTarget,
   cmd: string
-): SendMessageFunction<T> => {
+): SendMessageFunction<T, R> => {
   return async (payload: T) => {
     const message: Message<T> = {
       _imagineMsg: {
@@ -73,10 +73,10 @@ export const useMsgSend = <T = any>(
 
     switch (target) {
       case MessageTarget.CONTENT:
-        return sendMessageToActiveTab(message);
+        return sendMessageToActiveTab(message) as Promise<R>;
       case MessageTarget.POPUP:
       case MessageTarget.BACKGROUND:
-        return sendMessage(message);
+        return sendMessage(message) as Promise<R>;
       default:
         throw new Error(`未知的消息目标: ${target}`);
     }
